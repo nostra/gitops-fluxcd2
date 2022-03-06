@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    app.kubernetes.io/instance: flux-tenant
+    app.kubernetes.io/part-of: flux
+  name: flux-tenant
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: flux-tenant
+  namespace: flux-cluster
+spec:
+  interval: 1m0s
+  ref:
+    branch: master
+  secretRef:
+    name: flux-tenant
+  url: ssh://fluxpres@sshd.default:/home/fluxpres/flux-tenant.git
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: flux-tenant
+  namespace: flux-cluster
+spec:
+  interval: 10m0s
+  path: ./
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-tenant

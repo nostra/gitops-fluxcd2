@@ -117,6 +117,7 @@
         float: right;
         padding-top: 1em;
       }
+      img[alt=gitops] { float: right; width: 250px}
     </style>
   </head>
   <body>
