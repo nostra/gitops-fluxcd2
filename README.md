@@ -24,9 +24,3 @@ In order to get the sshd nodeport expoosed, do:
 
      kind create cluster --config kind-api-cluster.yaml 
 
-
-TODO:
-- Create ns for different parts, now there is a mix
-- Draw separate repos and responsible
-- git rebase, push, and publish
-- Create github action which does a make and published to gh-pages
