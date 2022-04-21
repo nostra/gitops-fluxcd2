@@ -55,11 +55,8 @@ kubectl version       # Should at least give 1.21
 flux version --client # Should at least give 0.28.3
 kustomize version     # 4.4.1, most are good
 ```
-Pull images:
-```bash
-docker pull nginx:1.17.6
-docker pull alpine:3.15
-```
+Note: On Mac you will need gnu-sed and replace the `sed` commands with `gsed`.
+
 ???
 - A lot of these technologies are the same as in 2019, the difference is
   the level of adoption and use
@@ -70,6 +67,12 @@ docker pull alpine:3.15
 - kubectl for kubernetes interaction
 - kind to run kubernetes in docker
 - flux for gitops
+- Mac instructions
+```
+brew install fluxcd/tap/flux
+brew install kustomize
+brew install gnu-sed
+```
 ---
 # Infrastructure as code
 .left-column[
@@ -304,6 +307,14 @@ flux bootstrap github --owner=nostra --repository=gitops-fluxcd2 --branch=master
 ```bash
 ssh -i ~/.ssh/fluxpres -p 30022 fluxpres@localhost git init --bare flux-system.git < /dev/null
 ```
+If you have trouble with the command above, you need:
+```
+# Edit ~/.ssh/config
+Host localhost
+  User fluxpres
+  IdentityFile ~/.ssh/fluxpres
+```
+
 ```bash
 echo "Clone and install flux system"
 mkdir -p ~/scrap/work
@@ -313,7 +324,9 @@ flux install \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --components-extra=image-reflector-controller,image-automation-controller \
   --export > ./flux-system/gotk-components.yaml
-pushd flux-system
+pushd flux-system 
+echo "Bootstrap flux system"
+kubectl create -f gotk-components.yaml
 git add . ; git commit -a -m "Initial commit" ; git push
 popd  
 ```
@@ -323,6 +336,7 @@ popd
 - https://fluxcd.io/docs/installation/#air-gapped-environments
 - https://github.com/fluxcd/flux2-multi-tenancy
 - Open as module in IntelliJ
+- It may be that flux bootstrap with appropriate flags is a better approach than applying system twice
 ---
 ## ...  and enable GitOps with kustomize
 .left-column[
@@ -344,11 +358,7 @@ cp $PRESENTATION_DIR/flux/system/*sync.yaml .
 kustomize create --namespace=flux-system --autodetect .
 git add .
 git commit -a -m "Add secret and sync configurations" ; git push
-popd
-```
-```bash
-pushd flux-system
-echo "Bootstrap flux system - might do it twice if kustomization crd is not registered"
+echo "Start synchronization of flux-system"
 kustomize build .|kubectl apply -f -
 popd
 ```
@@ -487,6 +497,21 @@ docker build -t local-test:v1 .
 kind load docker-image local-test:v1
 popd
 ```
+]
+---
+## ...  and enable GitOps with kustomize
+.left-column[
+## system
+## secret
+## cluster
+## tenant
+## tenant-repo
+## application
+## gitops
+] .right-column[
+Finally - you have a application definition and can get
+the application deployed via **git alone**, no `kubectl` command
+involved on the user side of things:
 ```bash
 export PRESENTATION_DIR=$PWD
 cd ~/scrap/work
@@ -497,18 +522,17 @@ git add . ; git commit -a -m "Add example" ; git push
 popd 
 ```
 
-After synchronization
+After flux has synchronized the kustomization:
 ```bash
 kc port-forward -n backend svc/nginx-test 8080
 ```
 * http://localhost:8080
-
-Alternative: 
+]
+???
+- Alternative:
 ```bash
 kubectl run multitool --rm -i --tty --image wbitt/network-multitool -- curl http://nginx-test.backend:8080
 ```
-]
-???
 - NOT Showing:
 - Update the example deployment (legacy)
 ```
