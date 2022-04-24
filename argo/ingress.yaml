@@ -14,9 +14,13 @@ spec:
   rules:
   - http:
       paths:
-      - backend:
-          serviceName: argocd-server
-          servicePort: https
+        - backend:
+            service:
+              name: argocd-server
+              port:
+                name: https
+          pathType: Prefix
+          path: "/"
     host: argocd.local
   tls:
   - secretName: https-cert

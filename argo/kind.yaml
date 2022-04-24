@@ -24,3 +24,8 @@ nodes:
   - containerPort: 443
     hostPort: 443
     protocol: TCP
+  - containerPort: 30022
+    hostPort: 30022
+    listenAddress: "127.0.0.1"
+    protocol: TCP
+- role: worker
