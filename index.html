@@ -407,7 +407,6 @@ Test the connection:
 ssh -i ~/.ssh/fluxpres -p 30022 fluxpres@localhost 
 ```
 
-
 ???
 - keygen note: Modern algorithm, no passphrase
 - https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
@@ -415,6 +414,7 @@ ssh -i ~/.ssh/fluxpres -p 30022 fluxpres@localhost
 - Test key ` ssh -i ~/.ssh/fluxpres fluxpres@sshd `
 - Consider ssh-keyscan -H sshd >> ~/.ssh/known_hosts
 - Testing repository: git clone ssh://fluxpres@sshd.default:/home/en/scrap/flux-system.git
+- `ssh-keygen -R "[localhost]:30022"` 
 ``` 
 # Modern type key:
 ssh-keygen -t ed25519 -f ~/.ssh/fluxpres -N "" -C "Key used for flux presentation dev on que"
