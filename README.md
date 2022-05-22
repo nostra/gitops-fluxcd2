@@ -2,7 +2,7 @@
 
 What is gitops, and how to set it up on kubernetes with fluxcd
 
-Render presentation with `make`, and then view [presentation.html](presentation.html) in a browser.
+Render presentation with `make`, and then view _presentation.html_ in a browser.
 
 Alternatively, see http://nostra.github.io/gitops-fluxcd2/
 
