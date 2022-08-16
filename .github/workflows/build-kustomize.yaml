@@ -16,3 +16,4 @@ jobs:
           kustomize_version: '3.0.0'
           kustomize_build_dir: 'flux/tenant'
           kustomize_comment: false
+          kustomize_output_file: "/dev/null"
