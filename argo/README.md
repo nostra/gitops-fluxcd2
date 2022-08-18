@@ -80,7 +80,7 @@ Notes from examination:
 - Why does the GUI support sync and refresh? All this should be	controlled with	just Kubernetes
 - Argo seems geared for manual operations, for instance automated sync needs to be turned on explicitly:
   https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/#automated-sync-policy
-- Automated prune is the as with Fluxcd, i.e. you explicitly say you want to remove the element
+- Automated prune is the same as with Fluxcd, i.e. you explicitly say you want to remove the element
 - It does not seem like application creates ownerReferences on objects it creates
        - This makes it Argo's responsibility to clean up the resource when deleting the application object
 - Sync phases and sync windows look very strange. This is not how one would use Kubernetes normally
@@ -92,4 +92,5 @@ an easy fashion) to see the status of a specific application. However, I do not 
 use Argo as a tool.
 
 With GitOps, it is the access rights for the git repository which determines what a someone has 
-access to deploy on a cluster. With Argo you have access to the GUI in addition to this. 
+access to deploy on a cluster. With Argo you have access to the GUI in addition to this, which 
+is an additional attack vector.
