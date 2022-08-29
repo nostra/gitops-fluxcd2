@@ -399,7 +399,7 @@ pushd dockerimage/sshd/
 cp ~/.ssh/fluxpres.pub .
 docker build -t flux_sshd:v1 .
 kind load docker-image flux_sshd:v1
-kubectl apply -f sshd.yaml
+kubectl -n default apply -f sshd.yaml
 popd
 ```
 Test the connection:
