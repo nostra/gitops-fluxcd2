@@ -128,7 +128,7 @@ class: center, middle, inverse
 ---
 # GitOps
 
-.footnote[01.04.2022 Erlend Nossum]
+.footnote[xx.12.2023 Erlend Nossum]
 ???
 
 - Made with: https://github.com/gnab/remark
@@ -173,11 +173,11 @@ Install:
 - https://fluxcd.io/docs/installation/#install-the-flux-cli
 - https://kubectl.docs.kubernetes.io/references/kustomize/
 ```
-kind --version        # Should yield at least 0.12.0
+kind --version        # Should yield at least 0.20.0
 docker ps             # Should not give any errors
-kubectl version       # Should at least give 1.21
-flux version --client # Should at least give 0.28.3
-kustomize version     # 4.4.1, most are good
+kubectl version       # Should at least give 1.29
+flux version --client # Should at least give 2.2.2
+kustomize version     # 5.3.0, most are good
 ```
 Note: On Mac you will need gnu-sed and replace the `sed` commands with `gsed`.
 
@@ -648,7 +648,7 @@ popd
 
 After flux has synchronized the kustomization:
 ```bash
-kc port-forward -n backend svc/nginx-test 8080
+kubectl port-forward -n backend svc/nginx-test 8080
 ```
 * http://localhost:8080
 ]
