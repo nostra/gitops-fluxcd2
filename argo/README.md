@@ -5,6 +5,8 @@ Followed https://magmax.org/en/blog/argocd/
 References:
 - https://kind.sigs.k8s.io/docs/user/ingress/
 - https://cert-manager.io/docs/installation/
+- https://github.com/argoproj/argo-cd
+- https://argo-cd.readthedocs.io/en/stable/getting_started/
 
 ## Installation notes 
 
@@ -13,14 +15,26 @@ Kind:
 kind create cluster --config=kind.yaml
 ````
 
-Nginx-ingress:
+Rancher desktop: Remember to turn of Traefik
+
+### Ingress
+#### KLnd
+Nginx-ingress for kind:
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
+#### Rancher desktop
+
+https://github.com/kubernetes/ingress-nginx/blob/main/docs/deploy/index.md#rancher-desktop
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.5/deploy/static/provider/cloud/deploy.yaml
+```
+
+### Cert-manager
 
 Install cert-manager:
 ```bash
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml
 ```
 Wait until it has been started before:
 ```bash
@@ -60,7 +74,8 @@ kubectl port-forward svc/argocd-server -n argocd 8443:443
 
 # Example-apps
 
-https://github.com/argoproj/argocd-example-apps/tree/master/guestbook
+- https://github.com/argoproj/argocd-example-apps/tree/master/guestbook
+- See also https://github.com/argoproj/argocd-example-apps/tree/HEAD
 
 argocd login argocd.local
 
