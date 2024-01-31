@@ -55,7 +55,9 @@ kubectl version       # Should at least give 1.29
 flux version --client # Should at least give 2.2.2
 kustomize version     # 5.3.0, most are good
 ```
-Note: On Mac you will need gnu-sed and replace the `sed` commands with `gsed`.
+**Note**: As this presentation is run on Mac, `sed` in the scripts
+has been replaced with `gsed`. Change it back if you are on Linux, or 
+make an alias.
 
 ???
 - A lot of these technologies are the same as in 2019, the difference is
@@ -353,7 +355,7 @@ flux create secret git flux-system \
     --private-key-file=$HOME/.ssh/fluxpres --namespace=flux-system \
     --export > flux-system-secret.yaml
 echo "Correct sshd hostname to what it is inside cluster"
-sed -i 's|.localhost.:30022|sshd.default|g' flux-system-secret.yaml
+gsed -i 's|.localhost.:30022|sshd.default|g' flux-system-secret.yaml
 cp $PRESENTATION_DIR/flux/system/*sync.yaml .
 kustomize create --namespace=flux-system --autodetect .
 git add .
@@ -392,7 +394,7 @@ flux create secret git flux-cluster \
     --url=ssh://fluxpres@localhost:30022/home/fluxpres/flux-cluster.git \
     --private-key-file=$HOME/.ssh/fluxpres --namespace=flux-cluster \
     --export > flux-cluster-secret.yaml
-sed -i 's|.localhost.:30022|sshd.default|g' flux-cluster-secret.yaml
+gsed -i 's|.localhost.:30022|sshd.default|g' flux-cluster-secret.yaml
 kustomize create --autodetect . 
 git add .
 git commit -a -m "Cluster setup" ; git push
@@ -409,7 +411,7 @@ kustomize edit add resource flux-cluster-secret.yaml
 kustomize edit add resource flux-cluster.yaml
 
 pushd flux-cluster
-#  sed -i 's|fluxpres@sshd|xxxxx|g' * 
+#  gsed -i 's|fluxpres@sshd|xxxxx|g' * 
 git add . ; git commit -a -m "Initial commit" ; git push
 
 export PRESENTATION_DIR=$HOME/git/private/gitops-fluxcd2
@@ -436,7 +438,7 @@ flux create secret git flux-tenant \
     --url=ssh://fluxpres@localhost:30022/home/fluxpres/flux-tenant.git \
     --private-key-file=$HOME/.ssh/fluxpres --namespace=flux-cluster \
     --export > flux-tenant-secret.yaml
-sed -i 's|.localhost.:30022|sshd.default|g' flux-tenant-secret.yaml
+gsed -i 's|.localhost.:30022|sshd.default|g' flux-tenant-secret.yaml
 git add flux-tenant-secret.yaml
 kustomize edit add resource flux-tenant-secret.yaml
 git commit -a -m "Add encrypted secret" ; git push
