@@ -437,6 +437,7 @@ If you have trouble with the command above, you need:
 ```
 # Edit ~/.ssh/config
 Host localhost
+  Port 30022
   User fluxpres
   IdentityFile ~/.ssh/fluxpres
 ```
@@ -463,6 +464,7 @@ popd
 - https://github.com/fluxcd/flux2-multi-tenancy
 - Open as module in IntelliJ
 - It may be that flux bootstrap with appropriate flags is a better approach than applying system twice
+- Alternative: `GIT_SSH_COMMAND="ssh -i ~/.ssh/fluxpres -p 30022" git clone ssh://fluxpres@localhost:30022/home/fluxpres/flux-system.git`
 ---
 ## ...  and enable GitOps with kustomize
 .left-column[
